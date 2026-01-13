@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>City Builder Base</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <h1>City Builder Base</h1>
+        <p class="subtitle">Lay out your first district and manage resources.</p>
+      </div>
+      <div class="resource-panel" aria-live="polite">
+        <div>
+          <span class="label">Money</span>
+          <span id="money">$500</span>
+        </div>
+        <div>
+          <span class="label">Population</span>
+          <span id="population">0</span>
+        </div>
+        <div>
+          <span class="label">Income</span>
+          <span id="income">$0 / turn</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section class="toolbar" aria-label="Build menu">
+        <h2>Build Menu</h2>
+        <div class="tool-grid" role="list">
+          <button class="tool-button" data-tool="road" role="listitem">
+            <span class="tool-name">Road</span>
+            <span class="tool-cost">$10</span>
+          </button>
+          <button class="tool-button" data-tool="house" role="listitem">
+            <span class="tool-name">House</span>
+            <span class="tool-cost">$50</span>
+          </button>
+          <button class="tool-button" data-tool="park" role="listitem">
+            <span class="tool-name">Park</span>
+            <span class="tool-cost">$30</span>
+          </button>
+          <button class="tool-button" data-tool="market" role="listitem">
+            <span class="tool-name">Market</span>
+            <span class="tool-cost">$70</span>
+          </button>
+        </div>
+        <div class="toolbar-actions">
+          <button id="end-turn" class="primary">End Turn</button>
+          <button id="clear-grid" class="ghost">Clear City</button>
+        </div>
+        <p class="hint">Tip: Markets boost income, parks increase happiness.</p>
+      </section>
+
+      <section class="grid-wrapper">
+        <div class="grid-header">
+          <h2>City Grid</h2>
+          <p>Select a tool, then click a tile to build.</p>
+        </div>
+        <div id="grid" class="city-grid" role="grid" aria-label="City layout grid"></div>
+      </section>
+
+      <section class="info-panel">
+        <h2>District Insights</h2>
+        <div class="info-card">
+          <h3>Current Selection</h3>
+          <p id="current-tool">Select a tool to begin building.</p>
+        </div>
+        <div class="info-card">
+          <h3>Turn Summary</h3>
+          <ul>
+            <li>Residential tiles add population.</li>
+            <li>Markets generate income per turn.</li>
+            <li>Parks improve district morale.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>Base prototype for a city builder game. Expand with zoning, utilities, and quests.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
