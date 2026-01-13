@@ -1,0 +1,9 @@
+{
+  "name": "bee-city-builder",
+  "version": "1.0.0",
+  "description": "Base bee-themed city builder prototype.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
