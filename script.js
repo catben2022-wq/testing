@@ -14,6 +14,8 @@ const tools = {
   market: { cost: 70, label: "Market", income: 12, population: 2 },
 };
 
+const previewClasses = Object.keys(tools).map((tool) => `preview-${tool}`);
+
 let selectedTool = null;
 let money = 500;
 let population = 0;
@@ -27,11 +29,16 @@ function updateStats() {
   incomeEl.textContent = `$${income} / turn`;
 }
 
+function clearPreview(tileElement) {
+  tileElement.classList.remove("preview", ...previewClasses);
+}
+
 function setActiveTool(tool) {
   selectedTool = tool;
   toolButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.tool === tool);
   });
+  tiles.forEach((tile) => clearPreview(tile.element));
   if (tool) {
     const toolInfo = tools[tool];
     currentTool.textContent = `${toolInfo.label} selected ($${toolInfo.cost}). Click a tile to build.`;
@@ -52,7 +59,9 @@ function applyTile(index, tool) {
   tile.population = tools[tool].population;
   tile.income = tools[tool].income;
   tile.element.className = `city-tile ${tool}`;
-  tile.element.textContent = tools[tool].label[0];
+  tile.element.textContent = "";
+  tile.element.dataset.type = tool;
+  tile.element.setAttribute("aria-label", `${tools[tool].label} tile ${index + 1}`);
 }
 
 function handleTileClick(index) {
@@ -84,20 +93,32 @@ function buildGrid() {
     tile.type = "button";
     tile.className = "city-tile";
     tile.setAttribute("role", "gridcell");
-    tile.setAttribute("aria-label", `City tile ${i + 1}`);
+    tile.setAttribute("aria-label", `Empty city tile ${i + 1}`);
     tile.addEventListener("click", () => handleTileClick(i));
+    tile.addEventListener("mouseenter", () => {
+      if (selectedTool && !tiles[i].type) {
+        clearPreview(tile);
+        tile.classList.add("preview", `preview-${selectedTool}`);
+      }
+    });
+    tile.addEventListener("mouseleave", () => {
+      clearPreview(tile);
+    });
     grid.appendChild(tile);
     tiles.push({ element: tile, type: null, population: 0, income: 0 });
   }
 }
 
 function clearGrid() {
-  tiles.forEach((tile) => {
+  tiles.forEach((tile, index) => {
     tile.type = null;
     tile.population = 0;
     tile.income = 0;
     tile.element.className = "city-tile";
     tile.element.textContent = "";
+    tile.element.removeAttribute("data-type");
+    tile.element.setAttribute("aria-label", `Empty city tile ${index + 1}`);
+    clearPreview(tile.element);
   });
   population = 0;
   income = 0;
